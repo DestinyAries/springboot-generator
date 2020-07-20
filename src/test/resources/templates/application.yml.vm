@@ -1,0 +1,11 @@
+# DataSource Config
+spring:
+  datasource:
+    driver-class-name: ${cfg.dbDriver}
+    url: ${cfg.dbUrl}
+    username: ${cfg.dbUsername}
+    password: ${cfg.dbPassword}
+
+# swagger
+swagger:
+  enable: true

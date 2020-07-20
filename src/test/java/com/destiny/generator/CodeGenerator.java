@@ -102,6 +102,8 @@ public class CodeGenerator {
      */
     private static InjectionConfig initCustom(Configuration config) {
         Map<String, Object> map = new HashMap<>();
+        map.put("basePackagePath", config.getPackagePath());
+        map.put("ApplicationName", config.getAppName());
         map.put("responsePackagePath", config.getPackagePath() + ".api.response");
         map.put("configPackagePath", config.getPackagePath() + ".config");
 
@@ -109,6 +111,24 @@ public class CodeGenerator {
         map.put("swaggerProjectName", config.getSwaggerProjectName());
         map.put("swaggerVersion", config.getSwaggerVersion());
         map.put("swaggerDescription", config.getSwaggerDescription());
+
+        // pom 属性
+        map.put("pomSpringBootVersion", config.getPomSpringBootVersion());
+        map.put("pomGroupId", config.getPomGroupId());
+        map.put("pomArtifactId", config.getPomArtifactId());
+        map.put("pomProjectVersion", config.getPomProjectVersion());
+        map.put("pomProjectName", config.getPomProjectName());
+        map.put("pomProjectDescription", config.getPomProjectDescription());
+        map.put("pomPropJavaVersion", config.getPomPropJavaVersion());
+        map.put("pomPropMybatisplusVersion", config.getPomPropMybatisplusVersion());
+        map.put("pomPropPagehelperVersion", config.getPomPropPagehelperVersion());
+        map.put("pomPropSwagger2Version", config.getPomPropSwagger2Version());
+
+        // yml 属性
+        map.put("dbDriver", config.getDbDriver());
+        map.put("dbUrl", config.getDbUrl());
+        map.put("dbUsername", config.getDbUsername());
+        map.put("dbPassword", config.getDbPassword());
 
         InjectionConfig cfg = new InjectionConfig() {
             @Override
@@ -121,6 +141,9 @@ public class CodeGenerator {
         Map<String, Object> outputPathMap = new HashMap<>();
         outputPathMap.put("responseOutputDir", baseOutputPath.replace("#", String.valueOf(map.get("responsePackagePath")).replace(".", File.separator)));
         outputPathMap.put("configOutputDir", baseOutputPath.replace("#", String.valueOf(map.get("configPackagePath")).replace(".", File.separator)));
+        outputPathMap.put("pomOutputDir", config.getPomPath());
+        outputPathMap.put("appYmlOutputDir", config.getResourcesPath());
+        outputPathMap.put("appJavaOutputDir", baseOutputPath.replace("#", config.getPackagePath().replace(".", File.separator)));
         outputPathMap.forEach((key, value) -> System.out.println(key + "===" + value));
 
         // 自定义输出配置
@@ -128,17 +151,31 @@ public class CodeGenerator {
         // 自定义配置会被优先输出
         // 模板引擎是 velocity
         focList.add(buildFileOutConfig("/templates/response.java.vm",
-                outputPathMap.get("responseOutputDir").toString(), true, "Resp"));
+                outputPathMap.get("responseOutputDir").toString(), true, "Resp", StringPool.DOT_JAVA));
         focList.add(buildFileOutConfig("/templates/config-swagger.java.vm",
-                outputPathMap.get("configOutputDir").toString(), false, "SwaggerConfig"));
+                outputPathMap.get("configOutputDir").toString(), false, "SwaggerConfig", StringPool.DOT_JAVA));
         focList.add(buildFileOutConfig("/templates/config-mybatisplus.java.vm",
-                outputPathMap.get("configOutputDir").toString(), false, "MybatisPlusConfig"));
+                outputPathMap.get("configOutputDir").toString(), false, "MybatisPlusConfig", StringPool.DOT_JAVA));
+        focList.add(buildFileOutConfig("/templates/pom-suggest.xml.vm",
+                outputPathMap.get("pomOutputDir").toString(), false, "pom", StringPool.DOT_XML));
+        focList.add(buildFileOutConfig("/templates/application.yml.vm",
+                outputPathMap.get("appYmlOutputDir").toString(), false, "application", ".yml"));
+        focList.add(buildFileOutConfig("/templates/application.java.vm",
+                outputPathMap.get("appJavaOutputDir").toString(), false, config.getAppName(), StringPool.DOT_JAVA));
         cfg.setFileOutConfigList(focList);
         return cfg;
     }
 
+    /**
+     * 生成文件
+     * @param templatePath
+     * @param outputPath
+     * @param isUseEntityName
+     * @param fileName
+     * @return
+     */
     private static FileOutConfig buildFileOutConfig(String templatePath, String outputPath,
-                                                    boolean isUseEntityName, String fileName) {
+                                                    boolean isUseEntityName, String fileName, String dot) {
         return new FileOutConfig(templatePath) {
             @Override
             public String outputFile(TableInfo tableInfo) {
@@ -149,7 +186,7 @@ public class CodeGenerator {
                 } else {
                     builder.append(fileName);
                 }
-                return builder.append(StringPool.DOT_JAVA).toString();
+                return builder.append(dot).toString();
             }
         };
     }
@@ -203,8 +240,7 @@ public class CodeGenerator {
         String outputDir = config.getOutputPath() + File.separator
                 + packageInfo.getParent().replace(".", File.separator) + File.separator
                 + packageInfo.getXml().replace(".", File.separator) + File.separator;
-        File file = new File(config.getOutputPath());
-        String toDir = file.getParentFile().getAbsolutePath() + File.separator + "resources" + File.separator + "mapper";
+        String toDir = config.getResourcesPath() + "mapper";
         File toFile = new File(toDir);
         toFile.mkdir();
         List<String> fileNames = FileUtil.listFileNames(outputDir);

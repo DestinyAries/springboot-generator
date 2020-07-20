@@ -37,7 +37,6 @@ public class Configuration {
     private String projectName;
     /**
      * 生成的文件所存放的路径
-     * 默认放在当前项目 ${projectName}/src/main/java/ 下
      */
     private String outputPath;
     /**
@@ -52,6 +51,14 @@ public class Configuration {
      * 待生成的表
      */
     private String[] tableArray;
+    /**
+     * 生成的pom文件所存放的路径
+     */
+    private String pomPath;
+    /**
+     * 生成的resources文件所存放的根路径
+     */
+    private String resourcesPath;
 
 
     /**
@@ -66,6 +73,53 @@ public class Configuration {
      * swagger - 项目描述
      */
     private String swaggerDescription;
+
+
+    /**
+     * pom - spring-boot 版本号
+     */
+    private String pomSpringBootVersion;
+    /**
+     * pom - 项目 GroupId
+     */
+    private String pomGroupId;
+    /**
+     * pom - 项目 ArtifactId
+     */
+    private String pomArtifactId;
+    /**
+     * pom - 项目版本号
+     */
+    private String pomProjectVersion;
+    /**
+     * pom - 项目名
+     */
+    private String pomProjectName;
+    /**
+     * pom - 项目描述
+     */
+    private String pomProjectDescription;
+    /**
+     * pom - 属性 - Java 版本
+     */
+    private String pomPropJavaVersion;
+    /**
+     * pom - 属性 - Mybatisplus 版本
+     */
+    private String pomPropMybatisplusVersion;
+    /**
+     * pom - 属性 - Pagehelper 版本
+     */
+    private String pomPropPagehelperVersion;
+    /**
+     * pom - 属性 - Swagger2 版本
+     */
+    private String pomPropSwagger2Version;
+
+    /**
+     * app 项目名 - 从 pom 项目名配置中获取
+     */
+    private String appName;
 
     public Configuration() {
         Props props = new Props("config.properties", CharsetUtil.UTF_8);
@@ -83,9 +137,19 @@ public class Configuration {
 
         this.projectName = props.getProperty("project.name");
 
-        String outputPathProps = props.getProperty("file.output.path");
-        this.outputPath = StrUtil.isEmpty(outputPathProps) ? getDefaultOutputPath(projectName) : outputPathProps;
+        this.outputPath = props.getProperty("file.output.path");
         this.packagePath = props.getProperty("file.package.path");
+
+        this.pomSpringBootVersion = props.getProperty("pom.springboot.version");
+        this.pomGroupId = props.getProperty("pom.project.groupId");
+        this.pomArtifactId = props.getProperty("pom.project.artifactId");
+        this.pomProjectVersion = props.getProperty("pom.project.version");
+        this.pomProjectName = props.getProperty("pom.project.name");
+        this.pomProjectDescription = props.getProperty("pom.project.description");
+        this.pomPropJavaVersion = props.getProperty("pom.properties.java.version");
+        this.pomPropMybatisplusVersion = props.getProperty("pom.properties.mybatisplus.version");
+        this.pomPropPagehelperVersion = props.getProperty("pom.properties.pagehelper.version");
+        this.pomPropSwagger2Version = props.getProperty("pom.properties.swagger2.version");
 
         String tablePrefixProps = props.getProperty("table.prefix.list");
         tablePrefixArray = tablePrefixProps.split(",");
@@ -93,27 +157,27 @@ public class Configuration {
         String tableProps = props.getProperty("table.name.list");
         tableArray = tableProps.split(",");
 
+        File outputFile = new File(this.outputPath);
+        this.pomPath = outputFile.getParentFile().getParentFile().getParentFile().getAbsolutePath() + File.separator;
+        this.resourcesPath = outputFile.getParentFile().getAbsolutePath() + File.separator + "resources" + File.separator;
+
+        this.appName = getAppNameFromPomProjectName();
 
         if ("mysql".equals(dbTypeProp)) {
             this.dbType = DbType.MYSQL;
         }
     }
 
-
     /**
-     * 默认输出路径
-     * @param projectName
+     * pom 的项目名转为 spring-boot 应用名
      * @return
      */
-    private String getDefaultOutputPath(String projectName) {
-        String currentPath = Configuration.class.getResource("/").getPath();
-        String[] splitArray = currentPath.split(projectName);
-        if (splitArray != null && splitArray[0] != null) {
-            return new StringBuilder(splitArray[0]).append(projectName).append(File.separator)
-                    .append("src").append(File.separator).append("main").append(File.separator).append("java").toString();
-
+    private String getAppNameFromPomProjectName() {
+        String[] splitArray = this.pomProjectName.split("-");
+        if (splitArray != null && splitArray.length > 1) {
+            return StrUtil.upperFirst(splitArray[0]) + StrUtil.upperFirst(splitArray[1]) + "Application";
         }
-        return "";
+        return StrUtil.upperFirst(this.pomProjectName) + "Application";
     }
 
 }
