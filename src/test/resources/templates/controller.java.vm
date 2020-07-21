@@ -1,12 +1,16 @@
 package ${package.Controller};
 
+import com.destiny.common.entity.ResultEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 #if(${swagger2})
 import io.swagger.annotations.Api;
@@ -51,23 +55,31 @@ public class ${table.controllerName} {
     @ApiOperation("查询")
     @ApiImplicitParam(name = "queryCondition", value = "某查询条件", paramType = "query", required = true, dataType = "String", example = "这是一个查询条件的值的栗子")
     @GetMapping
-    @ResponseBody
-    public String getList(@RequestParam("queryCondition") String queryCondition) {
-        return queryCondition;
+    public ResultEntity<${entity}Resp> getList(@RequestParam("queryCondition") String queryCondition) {
+        // TODO query service
+        return ResultEntity.success();
     }
 
     @ApiOperation("对资源的非幂等操作")
     @PostMapping
-    @ResponseBody
-    public ${entity}Resp create(@RequestBody Object request) {
-        return new ${entity}Resp();
+    public ResultEntity<${entity}Resp> create(@RequestBody Object request) {
+        // TODO create service
+        return ResultEntity.success();
     }
 
     @ApiOperation("对资源的幂等操作")
     @PutMapping
-    @ResponseBody
-    public String update(@RequestBody Object request) {
-        return "";
+    public ResultEntity update(@RequestBody Object request) {
+        // TODO update service
+        return ResultEntity.success();
+    }
+
+    @ApiOperation("对资源的删除操作")
+    @ApiImplicitParam(name = "id", value = "XXXID", paramType = "path", required = true, dataType = "long", example = "1")
+    @DeleteMapping("/{id}")
+    public ResultEntity delete(@PathVariable("id") Long id) {
+        // TODO delete service
+        return ResultEntity.success();
     }
 }
 #end

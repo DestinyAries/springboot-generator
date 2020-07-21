@@ -12,6 +12,8 @@ import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ import java.util.Map;
  * @Date 2020-07-17
  */
 public class CodeGenerator {
+    private static final Logger logger = LoggerFactory.getLogger(CodeGenerator.class);
 
     public static void main(String[] args) {
         Configuration config = new Configuration();
@@ -106,6 +109,7 @@ public class CodeGenerator {
         map.put("ApplicationName", config.getAppName());
         map.put("responsePackagePath", config.getPackagePath() + ".api.response");
         map.put("configPackagePath", config.getPackagePath() + ".config");
+        map.put("exceptionHandlerPackagePath", config.getPackagePath() + ".api.handler");
 
         // swagger 属性
         map.put("swaggerProjectName", config.getSwaggerProjectName());
@@ -144,7 +148,9 @@ public class CodeGenerator {
         outputPathMap.put("pomOutputDir", config.getPomPath());
         outputPathMap.put("appYmlOutputDir", config.getResourcesPath());
         outputPathMap.put("appJavaOutputDir", baseOutputPath.replace("#", config.getPackagePath().replace(".", File.separator)));
-        outputPathMap.forEach((key, value) -> System.out.println(key + "===" + value));
+        outputPathMap.put("exHandlerOutputDir", baseOutputPath.replace("#", String.valueOf(map.get("exceptionHandlerPackagePath")).replace(".", File.separator)));
+
+        outputPathMap.forEach((key, value) -> logger.info("custom output dir props: [{}]->[{}]", key, value));
 
         // 自定义输出配置
         List<FileOutConfig> focList = new ArrayList<>();
@@ -162,6 +168,8 @@ public class CodeGenerator {
                 outputPathMap.get("appYmlOutputDir").toString(), false, "application", ".yml"));
         focList.add(buildFileOutConfig("/templates/application.java.vm",
                 outputPathMap.get("appJavaOutputDir").toString(), false, config.getAppName(), StringPool.DOT_JAVA));
+        focList.add(buildFileOutConfig("/templates/global-exception-handler.java.vm",
+                outputPathMap.get("exHandlerOutputDir").toString(), false, "GlobalExceptionHandler", StringPool.DOT_JAVA));
         cfg.setFileOutConfigList(focList);
         return cfg;
     }

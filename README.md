@@ -3,10 +3,10 @@ To generate codes quickly (springboot+mysql+swagger)
 
 # dependencies
 ```
-// https://github.com/DestinyAries/plugin-tools/tree/master/swagger-tool
+// https://github.com/DestinyAries/plugin-tools/tree/master/common-tool
 <dependency>
     <groupId>com.destiny</groupId>
-    <artifactId>swagger-tool</artifactId>
+    <artifactId>common-tool</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```

@@ -32,10 +32,6 @@ public class Configuration {
     private String author;
 
     /**
-     * 项目名
-     */
-    private String projectName;
-    /**
      * 生成的文件所存放的路径
      */
     private String outputPath;
@@ -134,8 +130,6 @@ public class Configuration {
         this.swaggerProjectName = props.getProperty("swagger.projectName");
         this.swaggerVersion = props.getProperty("swagger.version");
         this.swaggerDescription = props.getProperty("swagger.description");
-
-        this.projectName = props.getProperty("project.name");
 
         this.outputPath = props.getProperty("file.output.path");
         this.packagePath = props.getProperty("file.package.path");

@@ -1,0 +1,36 @@
+package ${cfg.exceptionHandlerPackagePath};
+
+import com.destiny.common.entity.ResultEntity;
+import com.destiny.common.exception.handler.ExceptionHandleContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+/**
+ * This is a Global Exception Handler.
+ * This handler fit to the REST API response, and
+ * the response header is setted to Content-Type: application/json;charset=UTF-8
+ * if you want to change the header, see {@link ExceptionHandleContext}
+ *
+ * @Author Destiny
+ * @Date 2020-07-21
+ */
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    @Autowired
+    private ExceptionHandleContext exceptionHandleContext;
+
+    /**
+     * 全局异常处理
+     *
+     * @param ex 异常对象
+     * @return {@link ResultEntity}
+     */
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public ResultEntity exceptionHandler(Exception ex) {
+        return exceptionHandleContext.handle(ex);
+    }
+}

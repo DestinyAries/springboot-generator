@@ -1,6 +1,6 @@
 package ${cfg.configPackagePath};
 
-import com.destiny.swagger.BaseSwaggerConfig;
+import com.destiny.common.swagger.BaseSwaggerConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
