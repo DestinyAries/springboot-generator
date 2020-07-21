@@ -34,7 +34,6 @@ db.password=password
 
 # other
 author=Destiny
-project.name=demo-server
 
 # the output path to put the generated java files
 file.output.path=/Users/home/sources/demo-server/src/main/java
