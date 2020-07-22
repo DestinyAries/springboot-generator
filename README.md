@@ -72,7 +72,11 @@ pom.properties.swagger2.version=2.9.2
     |-com.xxx.xxx (config -> file.package.path)
         |-api
             |-controller
+            |-handler
+            |-request
             |-response
+        |-config
+        |-enumeration
         |-service
         |-persistence
             |-model
@@ -85,4 +89,4 @@ pom.properties.swagger2.version=2.9.2
 If you want to use this project to be the destination project after generate the codes, then you need to change the project name and update the pom configuration (such as project name, not useful dependencies after generated). 
 
 # plan
-1. Now we lack the test case, we will plan to make the codes more strong and safe in the future.
+Now we lack the test case, we will plan to make the codes more strong and safe in the future.
