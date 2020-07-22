@@ -1,7 +1,12 @@
 package ${package.Service};
 
+import ${cfg.requestPackagePath}.${entity}Req;
+import ${cfg.requestPackagePath}.${entity}PageReq;
 import ${package.Entity}.${entity};
 import ${superServiceClassPackage};
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 /**
  * $!{table.comment} 业务逻辑处理接口
@@ -13,6 +18,23 @@ import ${superServiceClassPackage};
 interface ${table.serviceName} : ${superServiceClass}<${entity}>
 #else
 public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
-
+    /**
+     * 获取分页列表
+     * @param pageRequest
+     * @return
+     */
+    PageInfo<${entity}> getPageList(${entity}PageReq pageRequest);
+    /**
+     * 新增一条记录
+     * @param request
+     * @return
+     */
+    boolean create(${entity}Req request);
+    /**
+     * 删除一条记录
+     * @param id
+     * @return
+     */
+    boolean deleteOne(Long id);
 }
 #end

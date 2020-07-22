@@ -1,7 +1,7 @@
 package ${cfg.exceptionHandlerPackagePath};
 
-import com.destiny.common.entity.ResultEntity;
-import com.destiny.common.exception.handler.ExceptionHandleContext;
+import ${cfg.commonUtilPath}.entity.ResultEntity;
+import ${cfg.commonUtilPath}.exception.handler.ExceptionHandleContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

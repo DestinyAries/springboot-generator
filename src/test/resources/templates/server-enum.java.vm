@@ -1,0 +1,34 @@
+package ${cfg.enumPackagePath};
+
+import ${cfg.commonUtilPath}.enumeration.ServerCode;
+
+/**
+ * 业务码枚举
+ *
+ * @Author ${author}
+ * @Date ${date}
+ */
+public enum ServerCodeEnum implements ServerCode {
+
+    SERVER_ERROR("1000", "业务异常")
+    ;
+
+    private String code;
+
+    private String msg;
+
+    ServerCodeEnum(String code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+    @Override
+    public String getCode() {
+        return code;
+    }
+
+    @Override
+    public String getMsg() {
+        return msg;
+    }
+}

@@ -1,4 +1,4 @@
-package ${cfg.responsePackagePath};
+package ${cfg.requestPackagePath};
 
 #foreach($pkg in ${table.importPackages})
 #if(${pkg.indexOf("mybatisplus")} == -1)
@@ -35,14 +35,14 @@ import lombok.experimental.Accessors;
   #end
 #end
 #if(${swagger2})
-@ApiModel(value="${entity}Resp响应实体", description="$!{table.comment}")
+@ApiModel(value="${entity}Req请求实体", description="$!{table.comment}")
 #end
 #if(${superEntityClass})
-public class ${entity}Resp extends ${superEntityClass}#if(${activeRecord})<${entity}>#end {
+public class ${entity}Req extends ${superEntityClass}#if(${activeRecord})<${entity}>#end {
 #elseif(${activeRecord})
-public class ${entity}Resp extends Model<${entity}> {
+public class ${entity}Req extends Model<${entity}> {
 #else
-public class ${entity}Resp implements Serializable {
+public class ${entity}Req implements Serializable {
 #end
 #if(${entitySerialVersionUID})
     private static final long serialVersionUID = 1L;
@@ -55,7 +55,7 @@ public class ${entity}Resp implements Serializable {
 #end
 #if("$!field.comment" != "")
   #if(${swagger2})
-    @ApiModelProperty(value = "${field.comment}")
+    @ApiModelProperty(value = "${field.comment}", example = "")
   #else
     /**
      * ${field.comment}

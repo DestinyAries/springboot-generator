@@ -1,0 +1,47 @@
+package ${cfg.requestPackagePath};
+
+import ${cfg.commonUtilPath}.entity.BasePageRequest;
+
+#foreach($pkg in ${table.importPackages})
+#if(${pkg.indexOf("mybatisplus")} == -1)
+import ${pkg};
+#end
+#end
+#if(${swagger2})
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+#end
+#if(${entityLombokModel})
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+#if(${chainModel})
+import lombok.experimental.Accessors;
+#end
+#end
+
+/**
+ * $!{table.comment}
+ *
+ * @Author ${author}
+ * @Date ${date}
+ */
+#if(${entityLombokModel})
+@Data
+  #if(${superEntityClass})
+@EqualsAndHashCode(callSuper = true)
+  #else
+@EqualsAndHashCode(callSuper = false)
+  #end
+  #if(${chainModel})
+@Accessors(chain = true)
+  #end
+#end
+#if(${swagger2})
+@ApiModel(value="${entity}PageReq分页请求实体", description="$!{table.comment}")
+#end
+public class ${entity}PageReq extends BasePageRequest implements Serializable {
+#if(${entitySerialVersionUID})
+    private static final long serialVersionUID = 1L;
+#end
+
+}

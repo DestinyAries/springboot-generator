@@ -1,9 +1,14 @@
 package ${package.ServiceImpl};
 
+import ${cfg.commonUtilPath}.util.BeanUtil;
+import ${cfg.requestPackagePath}.${entity}Req;
+import ${cfg.requestPackagePath}.${entity}PageReq;
 import ${package.Entity}.${entity};
 import ${package.Mapper}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
 import ${superServiceImplClassPackage};
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,5 +25,23 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
 #else
 public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
 
+    @Override
+    public PageInfo<${entity}> getPageList(${entity}PageReq pageRequest) {
+        // TODO logical handling
+        return PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize())
+                .doSelectPageInfo(() -> this.list());
+    }
+
+    @Override
+    public boolean create(${entity}Req request) {
+        // TODO logical handling
+        return this.save(BeanUtil.copyBean(request, ${entity}.class));
+    }
+
+    @Override
+    public boolean deleteOne(Long id) {
+        // TODO logical handling
+        return this.removeById(id);
+    }
 }
 #end

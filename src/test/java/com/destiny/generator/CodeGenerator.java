@@ -107,8 +107,13 @@ public class CodeGenerator {
         Map<String, Object> map = new HashMap<>();
         map.put("basePackagePath", config.getPackagePath());
         map.put("ApplicationName", config.getAppName());
+        map.put("commonUtilPath", config.getCommonUtilPath());
+
+        // ext package path config
         map.put("responsePackagePath", config.getPackagePath() + ".api.response");
+        map.put("requestPackagePath", config.getPackagePath() + ".api.request");
         map.put("configPackagePath", config.getPackagePath() + ".config");
+        map.put("enumPackagePath", config.getPackagePath() + ".enumeration");
         map.put("exceptionHandlerPackagePath", config.getPackagePath() + ".api.handler");
 
         // swagger 属性
@@ -144,6 +149,8 @@ public class CodeGenerator {
         String baseOutputPath = new StringBuilder(config.getOutputPath()).append(File.separator).append("#").append(File.separator).toString();
         Map<String, Object> outputPathMap = new HashMap<>();
         outputPathMap.put("responseOutputDir", baseOutputPath.replace("#", String.valueOf(map.get("responsePackagePath")).replace(".", File.separator)));
+        outputPathMap.put("requestOutputDir", baseOutputPath.replace("#", String.valueOf(map.get("requestPackagePath")).replace(".", File.separator)));
+        outputPathMap.put("enumOutputDir", baseOutputPath.replace("#", String.valueOf(map.get("enumPackagePath")).replace(".", File.separator)));
         outputPathMap.put("configOutputDir", baseOutputPath.replace("#", String.valueOf(map.get("configPackagePath")).replace(".", File.separator)));
         outputPathMap.put("pomOutputDir", config.getPomPath());
         outputPathMap.put("appYmlOutputDir", config.getResourcesPath());
@@ -158,6 +165,12 @@ public class CodeGenerator {
         // 模板引擎是 velocity
         focList.add(buildFileOutConfig("/templates/response.java.vm",
                 outputPathMap.get("responseOutputDir").toString(), true, "Resp", StringPool.DOT_JAVA));
+        focList.add(buildFileOutConfig("/templates/request.java.vm",
+                outputPathMap.get("requestOutputDir").toString(), true, "Req", StringPool.DOT_JAVA));
+        focList.add(buildFileOutConfig("/templates/request-page.java.vm",
+                outputPathMap.get("requestOutputDir").toString(), true, "PageReq", StringPool.DOT_JAVA));
+        focList.add(buildFileOutConfig("/templates/server-enum.java.vm",
+                outputPathMap.get("enumOutputDir").toString(), false, "ServerCodeEnum", StringPool.DOT_JAVA));
         focList.add(buildFileOutConfig("/templates/config-swagger.java.vm",
                 outputPathMap.get("configOutputDir").toString(), false, "SwaggerConfig", StringPool.DOT_JAVA));
         focList.add(buildFileOutConfig("/templates/config-mybatisplus.java.vm",
@@ -235,7 +248,6 @@ public class CodeGenerator {
         mpg.setPackageInfo(pc);
 
         mpg.setCfg(initCustom(config));
-
         mpg.execute();
         return mpg;
     }

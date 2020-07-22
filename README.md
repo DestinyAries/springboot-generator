@@ -39,6 +39,8 @@ author=Destiny
 file.output.path=/Users/home/sources/demo-server/src/main/java
 # package path
 file.package.path=com.destiny.demoserver
+# your common-util package path
+file.commonutil.path=com.destiny.common
 
 # --- table configurations ---
 # use to remove prefix

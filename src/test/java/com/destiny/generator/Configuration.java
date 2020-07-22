@@ -40,6 +40,10 @@ public class Configuration {
      */
     private String packagePath;
     /**
+     * 通用工具包路径
+     */
+    private String commonUtilPath;
+    /**
      * 表前缀
      */
     private String[] tablePrefixArray;
@@ -133,6 +137,7 @@ public class Configuration {
 
         this.outputPath = props.getProperty("file.output.path");
         this.packagePath = props.getProperty("file.package.path");
+        this.commonUtilPath = props.getProperty("file.commonutil.path");
 
         this.pomSpringBootVersion = props.getProperty("pom.springboot.version");
         this.pomGroupId = props.getProperty("pom.project.groupId");
