@@ -105,16 +105,20 @@ public class CodeGenerator {
      */
     private static InjectionConfig initCustom(Configuration config) {
         Map<String, Object> map = new HashMap<>();
+        // base config
+        map.put("serverPort", config.getServerPort());
         map.put("basePackagePath", config.getPackagePath());
         map.put("ApplicationName", config.getAppName());
+        map.put("projectName", config.getPomArtifactId());
         map.put("commonUtilPath", config.getCommonUtilPath());
+        map.put("logOutputPath", config.getLogOutputPath());
 
         // ext package path config
-        map.put("responsePackagePath", config.getPackagePath() + ".api.response");
-        map.put("requestPackagePath", config.getPackagePath() + ".api.request");
-        map.put("configPackagePath", config.getPackagePath() + ".config");
-        map.put("enumPackagePath", config.getPackagePath() + ".enumeration");
-        map.put("exceptionHandlerPackagePath", config.getPackagePath() + ".api.handler");
+        map.put("responsePackagePath", "api.response");
+        map.put("requestPackagePath", "api.request");
+        map.put("configPackagePath", "config");
+        map.put("enumPackagePath", "enumeration");
+        map.put("exceptionHandlerPackagePath", "api.handler");
 
         // swagger 属性
         map.put("swaggerProjectName", config.getSwaggerProjectName());
@@ -146,16 +150,17 @@ public class CodeGenerator {
             }
         };
 
-        String baseOutputPath = new StringBuilder(config.getOutputPath()).append(File.separator).append("#").append(File.separator).toString();
+        String javaOutputBasePath = config.getOutputPackagePath() + "#" + File.separator;
         Map<String, Object> outputPathMap = new HashMap<>();
-        outputPathMap.put("responseOutputDir", baseOutputPath.replace("#", String.valueOf(map.get("responsePackagePath")).replace(".", File.separator)));
-        outputPathMap.put("requestOutputDir", baseOutputPath.replace("#", String.valueOf(map.get("requestPackagePath")).replace(".", File.separator)));
-        outputPathMap.put("enumOutputDir", baseOutputPath.replace("#", String.valueOf(map.get("enumPackagePath")).replace(".", File.separator)));
-        outputPathMap.put("configOutputDir", baseOutputPath.replace("#", String.valueOf(map.get("configPackagePath")).replace(".", File.separator)));
-        outputPathMap.put("pomOutputDir", config.getPomPath());
+        outputPathMap.put("responseOutputDir", javaOutputBasePath.replace("#", String.valueOf(map.get("responsePackagePath")).replace(".", File.separator)));
+        outputPathMap.put("requestOutputDir", javaOutputBasePath.replace("#", String.valueOf(map.get("requestPackagePath")).replace(".", File.separator)));
+        outputPathMap.put("enumOutputDir", javaOutputBasePath.replace("#", String.valueOf(map.get("enumPackagePath"))));
+        outputPathMap.put("configOutputDir", javaOutputBasePath.replace("#", String.valueOf(map.get("configPackagePath"))));
+        outputPathMap.put("pomOutputDir", config.getBaseOutputPath());
+        outputPathMap.put("logbackOutputDir", config.getResourcesPath());
         outputPathMap.put("appYmlOutputDir", config.getResourcesPath());
-        outputPathMap.put("appJavaOutputDir", baseOutputPath.replace("#", config.getPackagePath().replace(".", File.separator)));
-        outputPathMap.put("exHandlerOutputDir", baseOutputPath.replace("#", String.valueOf(map.get("exceptionHandlerPackagePath")).replace(".", File.separator)));
+        outputPathMap.put("appJavaOutputDir", config.getOutputPackagePath());
+        outputPathMap.put("exHandlerOutputDir", javaOutputBasePath.replace("#", String.valueOf(map.get("exceptionHandlerPackagePath")).replace(".", File.separator)));
 
         outputPathMap.forEach((key, value) -> logger.info("custom output dir props: [{}]->[{}]", key, value));
 
@@ -177,6 +182,8 @@ public class CodeGenerator {
                 outputPathMap.get("configOutputDir").toString(), false, "MybatisPlusConfig", StringPool.DOT_JAVA));
         focList.add(buildFileOutConfig("/templates/pom-suggest.xml.vm",
                 outputPathMap.get("pomOutputDir").toString(), false, "pom", StringPool.DOT_XML));
+        focList.add(buildFileOutConfig("/templates/logback.xml.vm",
+                outputPathMap.get("logbackOutputDir").toString(), false, "logback-spring", StringPool.DOT_XML));
         focList.add(buildFileOutConfig("/templates/application.yml.vm",
                 outputPathMap.get("appYmlOutputDir").toString(), false, "application", ".yml"));
         focList.add(buildFileOutConfig("/templates/application.java.vm",

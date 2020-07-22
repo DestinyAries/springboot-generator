@@ -66,12 +66,65 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <!-- Development Environment -->
+            <id>dev</id>
+            <properties>
+                <profiles.active>dev</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <!-- QAS Environment -->
+            <id>qas</id>
+            <properties>
+                <profiles.active>qas</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <!-- Production Environment -->
+            <id>prod</id>
+            <properties>
+                <profiles.active>prod</profiles.active>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
+        <finalName>${cfg.pomArtifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>config/dev/*</exclude>
+                    <exclude>config/qas/*</exclude>
+                    <exclude>config/prod/*</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources/config/${profiles.active}</directory>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+##            <plugin>
+##                <groupId>org.apache.maven.plugins</groupId>
+##                <artifactId>maven-war-plugin</artifactId>
+##                <version>3.0.0</version>
+##                <configuration>
+##                    <failOnMissingWebXml>false</failOnMissingWebXml>
+##                    <warName>${project.artifactId}</warName>
+##                </configuration>
+##            </plugin>
         </plugins>
     </build>
 

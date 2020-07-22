@@ -1,4 +1,4 @@
-package ${cfg.requestPackagePath};
+package ${cfg.basePackagePath}.${cfg.requestPackagePath};
 
 import ${cfg.commonUtilPath}.entity.BasePageRequest;
 

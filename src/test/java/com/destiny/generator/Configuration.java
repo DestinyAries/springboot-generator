@@ -30,11 +30,36 @@ public class Configuration {
      * 作者
      */
     private String author;
+    /**
+     * 服务端口号
+     */
+    private String serverPort;
 
     /**
-     * 生成的文件所存放的路径
+     * 生成的文件所存放的项目根路径
+     * ${PROJECT_NAME}/
+     */
+    private String baseOutputPath;
+    /**
+     * 生成的Java文件所存放的根路径
+     * ${PROJECT_NAME}/src/main/java/
      */
     private String outputPath;
+    /**
+     * 生成的Java文件所存放的路径
+     * ${PROJECT_NAME}/src/main/java/com/xxx/xxx/
+     */
+    private String outputPackagePath;
+    /**
+     * 生成的resources文件所存放的根路径
+     * ${PROJECT_NAME}/src/main/resources/
+     */
+    private String resourcesPath;
+    /**
+     * 生成的日志文件所存放的根路径
+     * ${PROJECT_NAME}/log/
+     */
+    private String logOutputPath;
     /**
      * 包路径
      */
@@ -51,14 +76,6 @@ public class Configuration {
      * 待生成的表
      */
     private String[] tableArray;
-    /**
-     * 生成的pom文件所存放的路径
-     */
-    private String pomPath;
-    /**
-     * 生成的resources文件所存放的根路径
-     */
-    private String resourcesPath;
 
 
     /**
@@ -130,12 +147,14 @@ public class Configuration {
         this.dbPassword = props.getProperty("db.password");
 
         this.author = props.getProperty("author");
+        this.serverPort = props.getProperty("server.port");
 
         this.swaggerProjectName = props.getProperty("swagger.projectName");
         this.swaggerVersion = props.getProperty("swagger.version");
         this.swaggerDescription = props.getProperty("swagger.description");
 
-        this.outputPath = props.getProperty("file.output.path");
+        this.baseOutputPath = checkAndFixFileSeparator(props.getProperty("file.output.path"));
+        this.logOutputPath = props.getProperty("file.log.path");
         this.packagePath = props.getProperty("file.package.path");
         this.commonUtilPath = props.getProperty("file.commonutil.path");
 
@@ -156,9 +175,9 @@ public class Configuration {
         String tableProps = props.getProperty("table.name.list");
         tableArray = tableProps.split(",");
 
-        File outputFile = new File(this.outputPath);
-        this.pomPath = outputFile.getParentFile().getParentFile().getParentFile().getAbsolutePath() + File.separator;
-        this.resourcesPath = outputFile.getParentFile().getAbsolutePath() + File.separator + "resources" + File.separator;
+        this.outputPath = this.baseOutputPath + "src" + File.separator + "main" + File.separator + "java" + File.separator;
+        this.outputPackagePath = this.outputPath + this.packagePath.replace(".", File.separator) + File.separator;
+        this.resourcesPath = this.baseOutputPath + "src" + File.separator + "main" + File.separator + "resources" + File.separator;
 
         this.appName = getAppNameFromPomProjectName();
 
@@ -172,11 +191,19 @@ public class Configuration {
      * @return
      */
     private String getAppNameFromPomProjectName() {
-        String[] splitArray = this.pomProjectName.split("-");
+        String[] splitArray = this.pomArtifactId.split("-");
         if (splitArray != null && splitArray.length > 1) {
             return StrUtil.upperFirst(splitArray[0]) + StrUtil.upperFirst(splitArray[1]) + "Application";
         }
-        return StrUtil.upperFirst(this.pomProjectName) + "Application";
+        return StrUtil.upperFirst(this.pomArtifactId) + "Application";
     }
 
+    /**
+     * 检查并修正 dir
+     * @param dir
+     * @return
+     */
+    private String checkAndFixFileSeparator(String dir) {
+        return File.separator.equals(dir.substring(dir.length() - 1)) ? dir : dir + File.separator;
+    }
 }

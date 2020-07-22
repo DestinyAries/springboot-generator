@@ -2,10 +2,10 @@ package ${package.Controller};
 
 import ${cfg.commonUtilPath}.entity.ResultEntity;
 
-import ${cfg.enumPackagePath}.ServerCodeEnum;
-import ${cfg.requestPackagePath}.${entity}Req;
-import ${cfg.requestPackagePath}.${entity}PageReq;
-import ${cfg.responsePackagePath}.${entity}Resp;
+import ${cfg.basePackagePath}.${cfg.enumPackagePath}.ServerCodeEnum;
+import ${cfg.basePackagePath}.${cfg.requestPackagePath}.${entity}Req;
+import ${cfg.basePackagePath}.${cfg.requestPackagePath}.${entity}PageReq;
+import ${cfg.basePackagePath}.${cfg.responsePackagePath}.${entity}Resp;
 import ${package.Service}.${table.serviceName};
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 
 #if(${swagger2})
 import io.swagger.annotations.Api;

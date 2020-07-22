@@ -1,5 +1,11 @@
-# DataSource Config
+# Server Config
+server:
+  port: ${cfg.serverPort}
+
+# Spring Config
 spring:
+  profiles:
+    active: @profiles.active@
   datasource:
     driver-class-name: ${cfg.dbDriver}
     url: ${cfg.dbUrl}

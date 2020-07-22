@@ -1,4 +1,4 @@
-package ${cfg.configPackagePath};
+package ${cfg.basePackagePath}.${cfg.configPackagePath};
 
 import ${cfg.commonUtilPath}.swagger.BaseSwaggerConfig;
 import org.springframework.beans.factory.annotation.Value;

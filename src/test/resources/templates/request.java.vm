@@ -1,4 +1,4 @@
-package ${cfg.requestPackagePath};
+package ${cfg.basePackagePath}.${cfg.requestPackagePath};
 
 #foreach($pkg in ${table.importPackages})
 #if(${pkg.indexOf("mybatisplus")} == -1)

@@ -1,4 +1,4 @@
-package ${cfg.configPackagePath};
+package ${cfg.basePackagePath}.${cfg.configPackagePath};
 
 import com.github.pagehelper.PageInterceptor;
 import org.mybatis.spring.annotation.MapperScan;

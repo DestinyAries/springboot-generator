@@ -1,4 +1,4 @@
-package ${cfg.enumPackagePath};
+package ${cfg.basePackagePath}.${cfg.enumPackagePath};
 
 import ${cfg.commonUtilPath}.enumeration.ServerCode;
 

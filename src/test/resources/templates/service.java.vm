@@ -1,7 +1,7 @@
 package ${package.Service};
 
-import ${cfg.requestPackagePath}.${entity}Req;
-import ${cfg.requestPackagePath}.${entity}PageReq;
+import ${cfg.basePackagePath}.${cfg.requestPackagePath}.${entity}Req;
+import ${cfg.basePackagePath}.${cfg.requestPackagePath}.${entity}PageReq;
 import ${package.Entity}.${entity};
 import ${superServiceClassPackage};
 

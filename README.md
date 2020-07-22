@@ -17,54 +17,14 @@ To generate codes quickly (springboot+mysql+swagger)
     * mysql
     * maven
     
-2. running the sql in `${YOUR_SOURCE_PATH}/springboot-generator/db` to mysql. Or you can create the tables you need.
+2. Go to your mysql database to create database and tables. Or you can running [this demo sql file](https://github.com/DestinyAries/springboot-generator/blob/master/db/init.sql) to create a demo table.
 3. build your spring-boot project
-4. setting your configuration in `${YOUR_SOURCE_PATH}/springboot-generator/src/test/resources`
-5. run the `main` function in Class `CodeGenerator` in path `${YOUR_SOURCE_PATH}/springboot-generator/src/test/java/com/destiny/generator`
+4. setting your configuration in [This properties file](https://github.com/DestinyAries/springboot-generator/blob/master/src/test/resources/config.properties). The path is `springboot-generator/src/test/resources/config.properties`
+5. run the `main` function in Class `CodeGenerator` in path `springboot-generator/src/test/java/com/destiny/generator`
 6. go to your project and run the `spring-boot:run`, you can open `http://localhost:8080/swagger-ui.html` to see the generated api document.
 
 # an demo config for xxx-project
-```
-# db configuration
-db.type=mysql
-db.driver=com.mysql.cj.jdbc.Driver
-db.url=jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
-db.username=username
-db.password=password
-
-# other
-author=Destiny
-
-# the output path to put the generated java files
-file.output.path=/Users/home/sources/demo-server/src/main/java
-# package path
-file.package.path=com.destiny.demoserver
-# your common-util package path
-file.commonutil.path=com.destiny.common
-
-# --- table configurations ---
-# use to remove prefix
-table.prefix.list=xtl_,
-# the tables need to generate
-table.name.list=xtl_admin_user,
-
-# swagger config
-swagger.projectName=The Demo Server
-swagger.version=1.0.0
-swagger.description=This project use to show how to use this generator
-
-# pom config
-pom.springboot.version=2.3.1.RELEASE
-pom.project.groupId=com.destiny
-pom.project.artifactId=demo-server
-pom.project.version=0.0.1-SNAPSHOT
-pom.project.name=demo-server
-pom.project.description=To show how to use the generator for project
-pom.properties.java.version=1.8
-pom.properties.mybatisplus.version=3.3.2
-pom.properties.pagehelper.version=5.1.11
-pom.properties.swagger2.version=2.9.2
-```
+See in [The configuration properties](https://github.com/DestinyAries/springboot-generator/blob/master/src/test/resources/config.properties)
 
 # setting structure
 ```

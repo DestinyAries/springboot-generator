@@ -1,4 +1,4 @@
-package ${cfg.exceptionHandlerPackagePath};
+package ${cfg.basePackagePath}.${cfg.exceptionHandlerPackagePath};
 
 import ${cfg.commonUtilPath}.entity.ResultEntity;
 import ${cfg.commonUtilPath}.exception.handler.ExceptionHandleContext;
