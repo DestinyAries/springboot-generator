@@ -19,14 +19,14 @@
         <mybatisplus.version>${cfg.pomPropMybatisplusVersion}</mybatisplus.version>
         <pagehelper.version>${cfg.pomPropPagehelperVersion}</pagehelper.version>
         <swagger2.version>${cfg.pomPropSwagger2Version}</swagger2.version>
-        <destiny.version>1.0.0-SNAPSHOT</destiny.version>
+        <commonutil.version>1.0.0-SNAPSHOT</commonutil.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.destiny</groupId>
             <artifactId>common-tool</artifactId>
-            <version>${destiny.version}</version>
+            <version>${commonutil.version}</version>
         </dependency>
 
         <dependency>

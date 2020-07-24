@@ -1,6 +1,7 @@
 package com.destiny.generator;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IORuntimeException;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -264,13 +265,20 @@ public class CodeGenerator {
      * @param config
      */
     private static void moveXml(Configuration config, PackageConfig packageInfo) {
-        String outputDir = config.getOutputPath() + File.separator
+        String outputDir = config.getOutputPath()
                 + packageInfo.getParent().replace(".", File.separator) + File.separator
                 + packageInfo.getXml().replace(".", File.separator) + File.separator;
         String toDir = config.getResourcesPath() + "mapper";
         File toFile = new File(toDir);
         toFile.mkdir();
-        List<String> fileNames = FileUtil.listFileNames(outputDir);
+        List<String> fileNames = null;
+        try {
+            fileNames = FileUtil.listFileNames(outputDir);
+        } catch (IORuntimeException e) {
+            logger.error(e.getMessage(), e);
+            return ;
+        }
+
         fileNames.stream().forEach((name) -> {
             FileUtil.move(new File(outputDir + name), new File(toDir + File.separator + name), true);
         });

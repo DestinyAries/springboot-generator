@@ -43,5 +43,9 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         // TODO logical handling
         return this.removeById(id);
     }
+
+    /**
+     * ===================== private function area =====================
+     */
 }
 #end
