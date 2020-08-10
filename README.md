@@ -45,8 +45,5 @@ See in [The configuration properties](https://github.com/DestinyAries/springboot
     |-mapper
 ```
 
-# Remind
-If you want to use this project to be the destination project after generate the codes, then you need to change the project name and update the pom configuration (such as project name, not useful dependencies after generated). 
-
 # plan
 Now we lack the test case, we will plan to make the codes more strong and safe in the future.
