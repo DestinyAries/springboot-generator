@@ -32,11 +32,11 @@ See in [The configuration properties](https://github.com/DestinyAries/springboot
     |-com.xxx.xxx (config -> file.package.path)
         |-api
             |-controller
-            |-handler
             |-request
             |-response
         |-config
         |-enumeration
+        |-exception
         |-service
         |-persistence
             |-model

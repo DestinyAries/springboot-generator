@@ -8,6 +8,7 @@
         <encoder>
             <!-- 不要加行号，会影响执行效率 -->
             <pattern>%d{HH:mm:ss.SSS} [%thread] %level %logger{60} - %msg%n</pattern>
+            <!-- 影响 windows 系统的中文输出 -->
             <charset>UTF-8</charset>
         </encoder>
     </appender>
