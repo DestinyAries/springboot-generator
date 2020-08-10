@@ -1,26 +1,35 @@
 package ${cfg.basePackagePath}.${cfg.configPackagePath};
 
+import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.github.pagehelper.PageInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * mybatis-plus 配置
- *
+ * mybatis-plus configuration
  * @Author ${author}
  * @Date ${date}
  */
-
 @Configuration
 @MapperScan({"${package.Mapper}"})
 public class MybatisPlusConfig {
 
     /**
-     * pagehelper 分页插件
+     * pageHelper plugin bean
      */
     @Bean
     public PageInterceptor pageInterceptor() {
         return new PageInterceptor();
+    }
+
+    /**
+     * Optimistic Locker Interceptor
+     * when use annotation of {@link com.baomidou.mybatisplus.annotation.Version}
+     * @return
+     */
+    @Bean
+    public OptimisticLockerInterceptor optimisticLockerInterceptor() {
+        return new OptimisticLockerInterceptor();
     }
 }

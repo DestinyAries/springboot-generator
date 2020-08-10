@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * the response header is setted to Content-Type: application/json;charset=UTF-8
  * if you want to change the header, see {@link ExceptionHandleContext}
  *
- * @Author Destiny
- * @Date 2020-07-21
+ * @Author ${author}
+ * @Date ${date}
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -23,14 +23,13 @@ public class GlobalExceptionHandler {
     private ExceptionHandleContext exceptionHandleContext;
 
     /**
-     * 全局异常处理
-     *
-     * @param ex 异常对象
+     * Global Exception handler
+     * @param exception
      * @return {@link ResultEntity}
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ResultEntity exceptionHandler(Exception ex) {
-        return exceptionHandleContext.handle(ex);
+    public ResultEntity exceptionHandler(Exception exception) {
+        return exceptionHandleContext.handle(exception);
     }
 }

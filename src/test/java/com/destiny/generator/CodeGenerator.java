@@ -119,7 +119,7 @@ public class CodeGenerator {
         map.put("requestPackagePath", "api.request");
         map.put("configPackagePath", "config");
         map.put("enumPackagePath", "enumeration");
-        map.put("exceptionHandlerPackagePath", "api.handler");
+        map.put("exceptionHandlerPackagePath", "exception");
 
         // swagger 属性
         map.put("swaggerProjectName", config.getSwaggerProjectName());
@@ -143,6 +143,9 @@ public class CodeGenerator {
         map.put("dbUrl", config.getDbUrl());
         map.put("dbUsername", config.getDbUsername());
         map.put("dbPassword", config.getDbPassword());
+        map.put("jsonEnable", config.getJacksonConfigEnable());
+        map.put("jsonTimezone", config.getJacksonTimezone());
+        map.put("jsonDateFormat", config.getJacksonDateFormat());
 
         InjectionConfig cfg = new InjectionConfig() {
             @Override
@@ -161,7 +164,7 @@ public class CodeGenerator {
         outputPathMap.put("logbackOutputDir", config.getResourcesPath());
         outputPathMap.put("appYmlOutputDir", config.getResourcesPath());
         outputPathMap.put("appJavaOutputDir", config.getOutputPackagePath());
-        outputPathMap.put("exHandlerOutputDir", javaOutputBasePath.replace("#", String.valueOf(map.get("exceptionHandlerPackagePath")).replace(".", File.separator)));
+        outputPathMap.put("exHandlerOutputDir", javaOutputBasePath.replace("#", String.valueOf(map.get("exceptionHandlerPackagePath"))));
 
         outputPathMap.forEach((key, value) -> logger.info("custom output dir props: [{}]->[{}]", key, value));
 

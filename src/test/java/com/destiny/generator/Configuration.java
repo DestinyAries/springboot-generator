@@ -138,6 +138,19 @@ public class Configuration {
      */
     private String appName;
 
+    /**
+     * jackson - 是否启动配置
+     */
+    private Boolean jacksonConfigEnable;
+    /**
+     * jackson - 时区
+     */
+    private String jacksonTimezone;
+    /**
+     * jackson - 日期格式化
+     */
+    private String jacksonDateFormat;
+
     public Configuration() {
         Props props = new Props("config.properties", CharsetUtil.UTF_8);
         String dbTypeProp = props.getProperty("db.type");
@@ -168,6 +181,10 @@ public class Configuration {
         this.pomPropMybatisplusVersion = props.getProperty("pom.properties.mybatisplus.version");
         this.pomPropPagehelperVersion = props.getProperty("pom.properties.pagehelper.version");
         this.pomPropSwagger2Version = props.getProperty("pom.properties.swagger2.version");
+
+        this.jacksonConfigEnable = props.getBool("jackson.config.enable", false);
+        this.jacksonTimezone = props.getProperty("jackson.timezone");
+        this.jacksonDateFormat = props.getProperty("jackson.dateFormat");
 
         String tablePrefixProps = props.getProperty("table.prefix.list");
         tablePrefixArray = tablePrefixProps.split(",");

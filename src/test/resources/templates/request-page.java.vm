@@ -37,7 +37,7 @@ import lombok.experimental.Accessors;
   #end
 #end
 #if(${swagger2})
-@ApiModel(value="${entity}PageReq分页请求实体", description="$!{table.comment}")
+@ApiModel(value="$!{table.comment}PageRequestEntity")
 #end
 public class ${entity}PageReq extends BasePageRequest implements Serializable {
 #if(${entitySerialVersionUID})

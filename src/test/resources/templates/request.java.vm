@@ -35,7 +35,7 @@ import lombok.experimental.Accessors;
   #end
 #end
 #if(${swagger2})
-@ApiModel(value="${entity}Req请求实体", description="$!{table.comment}")
+@ApiModel(value="$!{table.comment}RequestEntity")
 #end
 #if(${superEntityClass})
 public class ${entity}Req extends ${superEntityClass}#if(${activeRecord})<${entity}>#end {
