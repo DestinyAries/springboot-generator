@@ -1,6 +1,6 @@
 package ${package.Controller};
 
-import ${cfg.commonUtilPath}.entity.ResultEntity;
+import ${cfg.commonUtilPath}.entity.HttpResponseEntity;
 
 import ${cfg.basePackagePath}.${cfg.enumPackagePath}.ServerCodeEnum;
 import ${cfg.basePackagePath}.${cfg.requestPackagePath}.${entity}Req;
@@ -34,8 +34,6 @@ import ${superControllerClassPackage};
 
 import javax.validation.Valid;
 
-
-
 /**
  * $!{table.comment}
  *
@@ -58,44 +56,44 @@ public class ${table.controllerName} extends ${superControllerClass} {
 #else
 public class ${table.controllerName} {
 #end
-    #set($serverceVariableName=$table.serviceName.substring(0,1).toLowerCase()+$table.serviceName.substring(1))
+    #set($serviceVariableName=$table.serviceName.substring(0,1).toLowerCase()+$table.serviceName.substring(1))
 
     @Autowired
-    private ${table.serviceName} ${serverceVariableName};
+    private ${table.serviceName} ${serviceVariableName};
 
     @ApiOperation("分页查询")
     @GetMapping
-    public ResultEntity<${entity}Resp> getPageList(@Valid ${entity}PageReq pageRequest) {
+    public HttpResponseEntity<${entity}Resp> getPageList(@Valid ${entity}PageReq pageRequest) {
         // TODO query service
-        return ResultEntity.success(${serverceVariableName}.getPageList(pageRequest));
+        return HttpResponseEntity.success(${serviceVariableName}.getPageList(pageRequest));
     }
 
     @ApiOperation("对资源的非幂等操作")
     @PostMapping
-    public ResultEntity<${entity}Resp> create(@RequestBody @Valid ${entity}Req request) {
+    public HttpResponseEntity<${entity}Resp> create(@RequestBody @Valid ${entity}Req request) {
         // TODO create service
-        if (${serverceVariableName}.create(request)) {
-            return ResultEntity.success();
+        if (${serviceVariableName}.create(request)) {
+            return HttpResponseEntity.success();
         }
-        return ResultEntity.failure();
+        return HttpResponseEntity.failure(ServerCodeEnum.SERVER_ERROR);
     }
 
     @ApiOperation("对资源的幂等操作")
     @PutMapping
-    public ResultEntity<${entity}Resp> update(@RequestBody @Valid ${entity}Req request) {
+    public HttpResponseEntity<${entity}Resp> update(@RequestBody @Valid ${entity}Req request) {
         // TODO update service
-        return ResultEntity.success();
+        return HttpResponseEntity.success();
     }
 
     @ApiOperation("对资源的删除操作")
     @ApiImplicitParam(name = "id", value = "$!{table.comment}ID", paramType = "path", required = true, dataType = "long", example = "1")
     @DeleteMapping("/{id}")
-    public ResultEntity delete(@PathVariable("id") Long id) {
+    public HttpResponseEntity delete(@PathVariable("id") Long id) {
         // TODO delete service
-        if (${serverceVariableName}.deleteOne(id)) {
-            return ResultEntity.success();
+        if (${serviceVariableName}.deleteOne(id)) {
+            return HttpResponseEntity.success();
         }
-        return ResultEntity.failure(ServerCodeEnum.SERVER_ERROR);
+        return HttpResponseEntity.failure(ServerCodeEnum.SERVER_ERROR);
     }
 }
 #end

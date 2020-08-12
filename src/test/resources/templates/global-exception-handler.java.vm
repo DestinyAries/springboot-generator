@@ -1,7 +1,7 @@
 package ${cfg.basePackagePath}.${cfg.exceptionHandlerPackagePath};
 
-import ${cfg.commonUtilPath}.entity.ResultEntity;
-import ${cfg.commonUtilPath}.exception.handler.ExceptionHandleContext;
+import ${cfg.commonUtilPath}.entity.HttpResponseEntity;
+import ${cfg.commonUtilPath}.exception.handler.ExceptionHandlerContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * This is a Global Exception Handler.
  * This handler fit to the REST API response, and
  * the response header is setted to Content-Type: application/json;charset=UTF-8
- * if you want to change the header, see {@link ExceptionHandleContext}
+ * if you want to change the header, see {@link ExceptionHandlerContext}
  *
  * @Author ${author}
  * @Date ${date}
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class GlobalExceptionHandler {
 
     @Autowired
-    private ExceptionHandleContext exceptionHandleContext;
+    private ExceptionHandlerContext exceptionHandlerContext;
 
     /**
      * Global Exception handler
@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ResultEntity exceptionHandler(Exception exception) {
-        return exceptionHandleContext.handle(exception);
+    public HttpResponseEntity exceptionHandler(Exception exception) {
+        return exceptionHandlerContext.handle(exception);
     }
 }
