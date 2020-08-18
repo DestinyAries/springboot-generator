@@ -65,7 +65,7 @@ public class ${table.controllerName} {
     @GetMapping
     public HttpResponseEntity<${entity}Resp> getPageList(@Valid ${entity}PageReq pageRequest) {
         // TODO query service
-        return HttpResponseEntity.success(${serviceVariableName}.getPageList(pageRequest));
+        return HttpResponseEntity.success(${serviceVariableName}.getPageList(pageRequest), ${entity}Resp.class);
     }
 
     @ApiOperation("对资源的非幂等操作")
